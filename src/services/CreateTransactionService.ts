@@ -3,9 +3,7 @@ import Transaction from '../models/Transaction';
 
 interface Request {
   title: string;
-
   value: number;
-
   type: 'income' | 'outcome';
 }
 
