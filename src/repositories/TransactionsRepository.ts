@@ -13,16 +13,39 @@ class TransactionsRepository {
     this.transactions = [];
   }
 
+  private calculateTotalByType(type: string): number {
+    return this.transactions.reduce((accumulator, currentValue) => {
+      if (currentValue.type === type) {
+        return accumulator + currentValue.value;
+      }
+      return accumulator;
+    }, 0);
+  }
+
   public all(): Transaction[] {
-    // TODO
+    return this.transactions;
   }
 
   public getBalance(): Balance {
-    // TODO
+    const totalIncome = this.calculateTotalByType('income');
+    const totalOutcome = this.calculateTotalByType('outcome');
+    const total = totalIncome - totalOutcome;
+
+    const balance = {
+      income: totalIncome,
+      outcome: totalOutcome,
+      total,
+    };
+
+    return balance;
   }
 
-  public create(): Transaction {
-    // TODO
+  public create({ title, value, type }: Transaction): Transaction {
+    const transaction = new Transaction({ title, value, type });
+
+    this.transactions.push(transaction);
+
+    return transaction;
   }
 }
 
